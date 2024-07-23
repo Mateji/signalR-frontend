@@ -1,0 +1,30 @@
+<div class="container">
+    <p>Join Group</p>
+    <form [formGroup]="joinGroupForm">
+        <div class="form-container">
+            <div class="input-container">
+                <input
+                    type="text"
+                    id="displayname"
+                    formControlName="user"
+                    aria-describedby="emailHelp"
+                    placeholder="Display Name"
+                />
+
+                <input
+                    type="text"
+                    id="roomname"
+                    placeholder="Group Name"
+                    formControlName="chatGroup"
+                />
+            </div>
+            <button
+                type="submit"
+                [disabled]="joinGroupForm.invalid"
+                (click)="joinGroup()"
+            >
+                Join
+            </button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,5 @@
+<div class="message-container">
+    <span class="date">{{ message?.date | date : "mediumTime" }}</span>
+    <span class="creator">{{ message?.sender?.displayName }}</span>
+    <span class="text">{{ message?.text }}</span>
+</div>
