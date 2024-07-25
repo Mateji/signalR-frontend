@@ -1,5 +1,14 @@
-<div class="message-container">
-    <span class="date">{{ message?.date | date : "mediumTime" }}</span>
-    <span class="creator">{{ message?.sender?.displayName }}</span>
-    <span class="text">{{ message?.text }}</span>
+<div
+    [ngClass]="{
+        'message-container': true,
+        'simple': type === 'simple',
+        'extended': type === 'extended',
+        'incoming': message?.user !== userDisplayName,
+        'outgoing': message?.user === userDisplayName
+
+    }"
+>
+    <span class="date">{{ (message && message.date ? '[' + (message.date | date : "mediumTime") + ']': '') }}</span>
+    <span class="sender">{{ message?.user }}:</span>
+    <span class="text">{{ message?.message }}</span>
 </div>

@@ -1,8 +1,7 @@
 export interface Message {
-    id: number;
-    text: string;
+    user: string;
+    message: string;
     date: Date;
-    sender: User;
 }
 
 export interface User {
