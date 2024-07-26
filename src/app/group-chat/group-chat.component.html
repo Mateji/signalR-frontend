@@ -1,0 +1,29 @@
+<div class="chat-background">
+    <div class="chat-info">
+        <p>Welcome to {{ selectedGroup }}</p>
+    </div>
+    <div class="message-container">
+        @for (message of messages; track message.id) {
+        <app-message [message]="message"></app-message>
+        }
+    </div>
+</div>
+<div class="input-container">
+    <input
+        (keydown.enter)="sendChatMessage()"
+        [(ngModel)]="inputMessage"
+        type="text"
+        class="typeMessage"
+        placeholder="Type a message"
+        autofocus
+    />
+
+    <button
+        #sendButton
+        (click)="sendChatMessage()"
+        class="send-message-button"
+        type="button"
+    >
+        <i class="fa fa-paper-plane-o" aria-hidden="true">Send</i>
+    </button>
+</div>

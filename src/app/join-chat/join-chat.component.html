@@ -1,7 +1,7 @@
 <div class="container">
-    <form [formGroup]="joinGroupForm">
+    <form [formGroup]="joinChatForm">
         <div class="form-container">
-            <p>Please enter your username and a chatroom name</p>
+            <p>Please enter your username</p>
             <div class="input-container">
                 <input
                     type="text"
@@ -10,20 +10,13 @@
                     aria-describedby="emailHelp"
                     placeholder="Display Name"
                 />
-
-                <input
-                    type="text"
-                    id="roomname"
-                    placeholder="Group Name"
-                    formControlName="chatGroup"
-                />
             </div>
             <button
                 type="submit"
-                [disabled]="joinGroupForm.invalid"
-                (click)="joinGroup()"
+                [disabled]="joinChatForm.invalid"
+                (click)="joinChat()"
             >
-                Join
+                Join Chat
             </button>
         </div>
     </form>

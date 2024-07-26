@@ -1,16 +1,30 @@
+import { group } from '@angular/animations';
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { BehaviorSubject, Subject } from 'rxjs';
+
+
+// TODO: update Message to incorporate status messages, update backend status model aswell, maybe: type: message | status
+export interface Message {
+    user: string;
+    group: string;
+    message: string;
+    date?: Date;
+}
+
 @Injectable({
     providedIn: 'root',
 })
 export class ChatService {
     connection: signalR.HubConnection;
-    messages$ = new BehaviorSubject<any>([]);
+    messages$ = new BehaviorSubject<Message[]>([]);
     activeUsers$ = new BehaviorSubject<any>([]);
     connectionState$ = new BehaviorSubject<any>(null);
     groupStatus$ = new BehaviorSubject<any>(null);
-    messages: any[] = [];
+    joinedGroups$ = new BehaviorSubject<string[]>([]);
+    status$ = new BehaviorSubject<any>(null);
+    joinChat$ = new BehaviorSubject<string>('');
+    messages: Message[] = [];
     users: string[] = [];
 
     constructor() {
@@ -19,16 +33,32 @@ export class ChatService {
             .configureLogging(signalR.LogLevel.Information)
             .build();
 
-        this.start()
+        this.start();
 
         this.connection.on(
             'ReceiveMessage',
-            (user: string, message: string, messageTime: string) => {
+            (
+                user: string,
+                group: string,
+                message: string,
+                messageTime: string
+            ) => {
                 let date = messageTime ? new Date(messageTime) : undefined;
-                this.messages = [...this.messages, { user, message, date }];
+                this.messages = [
+                    ...this.messages,
+                    { user, group, message, date },
+                ];
                 this.messages$.next(this.messages);
             }
         );
+
+        this.connection.on('Status', (status: string) => {
+            this.status$.next(status);
+        });
+
+        this.connection.on('JoinChat', (welcomeMessage: string) => {
+            this.joinChat$.next(welcomeMessage);
+        });
 
         this.connection.on('ConnectedUser', (users: any) => {
             console.log('Connected users:', users);
@@ -37,6 +67,10 @@ export class ChatService {
 
         this.connection.on('GroupStatus', (groupStatus: any) => {
             this.groupStatus$.next(groupStatus);
+        });
+
+        this.connection.on('ListJoinedGroups', (groups: string[]) => {
+            this.joinedGroups$.next(groups);
         });
     }
 
@@ -50,16 +84,24 @@ export class ChatService {
         }
     }
 
+    async getJoinedGroups() {
+        return this.connection.invoke('ListJoinedGroups');
+    }
+
     async getGroupStatus() {
         return this.connection.invoke('GetGroupStatus');
     }
 
-    async joinGroup(user: string, chatGroup: string) {
-        return this.connection.invoke('JoinGroup', { user, chatGroup });
+    async joinChat(user: string) {
+        return this.connection.invoke('JoinChat', user);
     }
 
-    async sendChatMessage(message: string) {
-        return this.connection.invoke('SendChatMessage', message);
+    async joinGroup(chatGroup: string) {
+        return this.connection.invoke('JoinGroup', chatGroup);
+    }
+
+    async sendChatMessage(message: string, group: string) {
+        return this.connection.invoke('SendChatMessage', message, group);
     }
 
     async leaveChat() {

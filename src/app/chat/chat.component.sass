@@ -6,30 +6,57 @@
     justify-content: space-around
     padding: 0 5px
 
-    .chat-container
+    .content-container
         display: flex
-        flex-direction: column
         flex: 1
 
-        .chat-background
-            background: #fff
+        .channel-container
+            display: flex
+            flex-direction: column
+            flex: 0
+            background: lightblue
+
+            .input-container
+                display: flex
+
+                .join-channel-button p
+                    white-space: nowrap
+
+
+            .channel-list
+                display: flex
+                flex-direction: column
+                flex: 1
+                overflow-y: auto
+
+
+        .chat-container
             display: flex
             flex-direction: column
             flex: 1
-            justify-content: space-around
 
-            .chat-info
+            .chat-background
+                background: #fff
+                display: flex
+                flex-direction: column
+                flex: 1
+                justify-content: space-around
+
+                .chat-info
+                    display: flex
+                    flex: 0
+
+                .message-container
+                    display: flex
+                    flex: 1
+                    flex-direction: column
+                    justify-content: flex-end
+
+            .input-container
                 display: flex
                 flex: 0
 
-            .message-container
-                display: flex
-                flex: 1
-                flex-direction: column
-                justify-content: flex-end
+                input
+                    flex: 1
 
-    .input-container
-        display: flex
-
-        input
-            flex: 1
+        

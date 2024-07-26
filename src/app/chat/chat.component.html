@@ -1,5 +1,4 @@
 <div class="container">
-    
     @if (isLoading) {
 
     <div class="loading-container">
@@ -15,36 +14,35 @@
             Leave Chat
         </button>
     </div>
-    <div class="chat-container">
-        <div class="chat-background">
-            <div class="chat-info">
-                <p>Welcome to {{ groupName }}</p>
+    <div class="content-container">
+        <div class="channel-container">
+            <div class="input-container">
+                <input
+                    (keydown.enter)="joinChannel()"
+                    [(ngModel)]="inputChannel"
+                    type="text"
+                    class="join-channel"
+                    placeholder="Enter a channel name"
+                />
+                <button
+                    #joinChannelButton
+                    (click)="joinChannel()"
+                    class="join-channel-button"
+                    type="button"
+                >
+                    <p>Join Channel</p>
+                </button>
             </div>
-            <div class="message-container">
-                @for (message of messages; track message.id) {
-                <app-message [message]="message"></app-message>
+            <div class="channel-list">
+                <a routerLink="status" class="status-channel">Status</a>
+                @for (group of groups; track group) {
+                <a [routerLink]="group">{{ group }}</a>
                 }
             </div>
         </div>
-    </div>
-    <div class="input-container">
-        <input
-            (keydown.enter)="sendChatMessage()"
-            [(ngModel)]="inputMessage"
-            type="text"
-            class="typeMessage"
-            placeholder="Type a message"
-            autofocus
-        />
-
-        <button
-            #sendButton
-            (click)="sendChatMessage()"
-            class="send-message-button"
-            type="button"
-        >
-            <i class="fa fa-paper-plane-o" aria-hidden="true">Send</i>
-        </button>
+        <div class="chat-container">
+            <router-outlet></router-outlet>
+        </div>
     </div>
 
     }

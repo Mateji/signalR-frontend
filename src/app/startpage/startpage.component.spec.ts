@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { JoinGroupComponent } from './join-group.component';
+import { StartpageComponent } from './startpage.component';
 
-describe('JoinGroupComponent', () => {
-  let component: JoinGroupComponent;
-  let fixture: ComponentFixture<JoinGroupComponent>;
+describe('StartpageComponent', () => {
+  let component: StartpageComponent;
+  let fixture: ComponentFixture<StartpageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [JoinGroupComponent]
+      imports: [StartpageComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(JoinGroupComponent);
+    fixture = TestBed.createComponent(StartpageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
